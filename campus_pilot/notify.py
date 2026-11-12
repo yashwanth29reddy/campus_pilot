@@ -18,3 +18,6 @@ def mac_notify(title: str, message: str) -> None:
             check=True,
             capture_output=True,
             timeout=10,
+        )
+    except Exception:  # noqa: BLE001 - notifications are best-effort
+        pass
