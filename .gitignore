@@ -8,3 +8,10 @@ __pycache__/
 .env.local
 .next/
 node_modules/
+logs/
+.DS_Store
+campus_pilot.db*
+spliteasy/
+credentials.json
+token.json
+campus_pilot/
