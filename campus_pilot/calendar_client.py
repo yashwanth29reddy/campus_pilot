@@ -20,3 +20,13 @@ def _iso(d: str, t: str, timezone: str) -> dict:
 
 def create_event(service, parsed: dict, message_id: str, cfg: dict) -> str | None:
     """Insert one event; returns its calendar event id or None on failure."""
+
+    date_str = parsed.get("date", "").strip()
+    if not date_str:
+        print("  No date extracted — skipping calendar write.")
+        return None
+
+    time_start = parsed.get("time_start", "").strip()
+    time_end = parsed.get("time_end", "").strip()
+
+    start = _iso(date_str, time_start, cfg["timezone"])
