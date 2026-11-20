@@ -30,3 +30,13 @@ def create_event(service, parsed: dict, message_id: str, cfg: dict) -> str | Non
     time_end = parsed.get("time_end", "").strip()
 
     start = _iso(date_str, time_start, cfg["timezone"])
+    if time_end:
+        end = {"dateTime": f"{date_str}T{time_end}:00", "timeZone": cfg["timezone"]}
+    elif time_start:
+        # Default to 1 hour if the sender only gave a start time.
+        st = dt.datetime.strptime(f"{date_str}T{time_start}", "%Y-%m-%dT%H:%M")
+        end = {"dateTime": f"{(st + dt.timedelta(hours=1)).strftime('%Y-%m-%dT%H:%M')}:00", "timeZone": cfg["timezone"]}
+    else:
+        end = {"date": date_str}
+
+    body = {
