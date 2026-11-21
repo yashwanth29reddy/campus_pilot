@@ -40,3 +40,13 @@ def create_event(service, parsed: dict, message_id: str, cfg: dict) -> str | Non
         end = {"date": date_str}
 
     body = {
+        "summary": parsed.get("event_name", "University event").strip(),
+        "description": parsed.get("description", ""),
+        "start": start,
+        "end": end,
+        "location": parsed.get("location", "").strip(),
+        "extendedProperties": {"private": {"campusPilotMessageId": message_id}},
+        "reminders": {
+            "useDefault": False,
+            "overrides": [
+                {"method": "popup", "minutes": cfg.get("reminder_minutes", 60)}
