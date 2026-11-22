@@ -50,3 +50,13 @@ def create_event(service, parsed: dict, message_id: str, cfg: dict) -> str | Non
             "useDefault": False,
             "overrides": [
                 {"method": "popup", "minutes": cfg.get("reminder_minutes", 60)}
+            ],
+        },
+    }
+
+    try:
+        event = (
+            service.events()
+            .insert(calendarId=cfg.get("calendar_id", "primary"), body=body)
+            .execute()
+        )
