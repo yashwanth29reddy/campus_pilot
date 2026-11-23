@@ -60,3 +60,7 @@ def create_event(service, parsed: dict, message_id: str, cfg: dict) -> str | Non
             .insert(calendarId=cfg.get("calendar_id", "primary"), body=body)
             .execute()
         )
+        return event.get("id")
+    except HttpError as e:
+        print(f"  Calendar insert failed: {e.status_code} {e.reason}")
+        return None
