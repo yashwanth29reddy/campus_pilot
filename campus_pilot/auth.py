@@ -19,3 +19,13 @@ CREDENTIALS_PATH = PROJECT_DIR / "credentials.json"
 TOKEN_PATH = PROJECT_DIR / "token.json"
 
 # Gmail read-only + Calendar event read/write. We deliberately avoid full
+# Gmail write/delete scopes to keep the token least-privileged.
+SCOPES = [
+    "https://www.googleapis.com/auth/gmail.readonly",
+    "https://www.googleapis.com/auth/calendar.events",
+]
+
+
+def _get_credentials() -> Credentials:
+    if not CREDENTIALS_PATH.exists():
+        raise FileNotFoundError(
