@@ -29,3 +29,13 @@ SCOPES = [
 def _get_credentials() -> Credentials:
     if not CREDENTIALS_PATH.exists():
         raise FileNotFoundError(
+            f"credentials.json not found at {CREDENTIALS_PATH}. "
+            "Download it from Google Cloud Console > Credentials > OAuth client (Desktop app)."
+        )
+
+    creds = None
+    if TOKEN_PATH.exists():
+        creds = Credentials.from_authorized_user_file(str(TOKEN_PATH), SCOPES)
+
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
